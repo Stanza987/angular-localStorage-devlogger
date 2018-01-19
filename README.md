@@ -23,13 +23,13 @@ BehaviorSubject is a type of RxJS **Subject** that acts as both an *Observer* an
 
 Consider the following static data set in `log.service.ts`
 ```typescript
-  constructor() {
-    this.logs = [
-      { id: '1', text: 'Generated components', date: new Date('12/26/2017 12:54:23') },
-      { id: '2', text: 'Added Bootstrap', date: new Date('12/27/2017 9:33:13') },
-      { id: '3', text: 'Added logs component', date: new Date('12/27/2017 12:00:23') }
-    ];
-  }
+constructor() {
+  this.logs = [
+    { id: '1', text: 'Generated components', date: new Date('12/26/2017 12:54:23') },
+    { id: '2', text: 'Added Bootstrap', date: new Date('12/27/2017 9:33:13') },
+    { id: '3', text: 'Added logs component', date: new Date('12/27/2017 12:00:23') }
+  ];
+}
 ```
 
 ## Synchronous Data Sharing
@@ -37,18 +37,18 @@ Consider the following static data set in `log.service.ts`
 In order for the component to access the data defined in the service, the component must call the `getLogs()` method in `log.service.ts`
 ```typescript
 // log.service.ts
-  getLogs() {
-    return this.logs;
-  }
+getLogs() {
+  return this.logs;
+}
 ```
 
 ```typescript
 // logs.component.ts
-  logs: Log[];
+logs: Log[];
 
-  ngOnInit() {
-    this.logs = this.logService.getLogs();
-  }
+ngOnInit() {
+  this.logs = this.logService.getLogs();
+}
 ```
 
 Although this is nice, if the data were to be updated, we can't share this new data asynchronously with another component.  That's where BehaviorSubject can be useful!
@@ -76,29 +76,30 @@ Although this is nice, if the data were to be updated, we can't share this new d
     import { of } from 'rxjs/observable/of';
     ...
 
-      getLogs(): Observable<Log[]> {
-        return of(this.logs);
-      }
+    getLogs(): Observable<Log[]> {
+      return of(this.logs);
+    }
     ```
 
 ## Asynchronous Data Sharing
 1. Populate data asynchronously into `logs.component.ts` through `logService`
     ```typescript
-      ngOnInit() {
-        this.logService.getLogs().subscribe(logs => this.logs = logs);
-      }
+    ngOnInit() {
+      this.logService.getLogs().subscribe(logs => this.logs = logs);
+    }
     ```
 
 1. Read this same data asynchronously in `log-form.component.ts` through `logService`
     ```typescript
-      ngOnInit() {
-        this.logservice.logSource.subscribe(log => {
-          if (log.id !== null) {
-            this.id = log.id;
-            this.text = log.text;
-            this.date = log.date;
-          }
-        });
+    ngOnInit() {
+      this.logservice.logSource.subscribe(log => {
+        if (log.id !== null) {
+          this.id = log.id;
+          this.text = log.text;
+          this.date = log.date;
+        }
+      });
+    }
     ```
 
 ## Transfer data between two sibling components
