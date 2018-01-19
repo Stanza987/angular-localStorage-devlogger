@@ -73,6 +73,9 @@ Although this is nice, if the data were to be updated, we can't share this new d
 
 1. Update the `getLogs()` method to return an *Observable* by using the `of` operator, which converts arguments into an observable sequence.  Now, `getLogs` will report data asynchronously
     ```typescript
+    import { of } from 'rxjs/observable/of';
+    ...
+
       getLogs(): Observable<Log[]> {
         return of(this.logs);
       }
