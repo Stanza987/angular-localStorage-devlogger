@@ -1,0 +1,22 @@
+<div class="card card-body mb-3" *ngIf="loaded && logs.length > 0">
+  <table class="table table-striped table-hover">
+    <tr>
+      <th>Logs</th>
+      <th>Date</th>
+      <th>Remove</th>
+    </tr>
+    <tr *ngFor="let log of logs" [class.table-success]="selectedLog === log">
+      <td><a href="#" (click)="onSelect(log)">{{ log.text }}</a></td>
+      <td><span class="log-date">{{ log.date | date:'short' }}</span></td>
+      <td><i class="fa fa-remove del-pointer" (click)="onDelete(log)"></i></td>
+    </tr>
+  </table>
+  </div>
+
+  <div *ngIf="loaded && logs.length === 0">
+    <h5>There are no logs in the system</h5>
+  </div>
+
+  <div *ngIf="!loaded">
+    <h5>Loading...</h5>
+  </div>
